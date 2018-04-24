@@ -14,12 +14,8 @@ def parse_connections(source):
 
     connections_info = []
 
-    table_source = str(soup.find(id="MLG_Device_Name").parent.parent.parent)
-
-    table_source = table_source
-    table_soup = BeautifulSoup(table_source, 'html.parser')
-
-    entries = list(table_soup.find_all("tr"))[1:]
+    table = soup.find(id="MLG_Device_Name").parent.parent.parent
+    entries = list(table.find_all("tr"))[1:]
 
     for entry in entries:
         entry = list(map(lambda x: x.text.strip(), entry.find_all("td")))
