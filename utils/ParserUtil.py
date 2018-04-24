@@ -2,8 +2,8 @@ import re
 
 from bs4 import BeautifulSoup
 
-from ConnectionModel import ConnectionModel
-from StatusModel import StatusModel, WanInfoPVC, InterfaceStatus
+from models.ConnectionModel import ConnectionModel
+from models.StatusModel import StatusModel, WanInfoPVC, InterfaceStatus
 
 
 def parse_connections(source):
