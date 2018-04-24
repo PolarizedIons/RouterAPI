@@ -1,14 +1,37 @@
-import json
 import re
 
 from bs4 import BeautifulSoup
 
+from ConnectionModel import ConnectionModel
 from StatusModel import StatusModel, WanInfoPVC, InterfaceStatus
 
 
-def parse_main(source):
+def parse_connections(source):
     print(":: Parsing Main Page")
+    # Fix broken html -.-
+    source = source.replace('<td class="table_font">\n</ul></li>', '<td class="table_font">\n')
     soup = BeautifulSoup(source, 'html.parser')
+
+    connections_info = []
+
+    table_source = str(soup.find(id="MLG_Device_Name").parent.parent.parent)
+
+    table_source = table_source
+    table_soup = BeautifulSoup(table_source, 'html.parser')
+
+    entries = list(table_soup.find_all("tr"))[1:]
+
+    for entry in entries:
+        entry = list(map(lambda x: x.text.strip(), entry.find_all("td")))
+        connection = ConnectionModel()
+        connection.device_name = entry[1]
+        connection.ip_address = entry[2]
+        connection.ipv6_local_address = entry[3]
+        connection.ipv6_global_address = entry[4]
+        connection.mac_address = entry[5]
+        connections_info.append(connection)
+
+    return connections_info
 
 
 def _get_table_value(soup, find_id):
@@ -32,12 +55,12 @@ def parse_status(source):
     print(":: Parsing Status page")
     soup = BeautifulSoup(source, 'html.parser')
 
+    # Private util methods
     def _get(find_id):
         return _get_table_value(soup, find_id)
 
     def _find(find_str):
         return _get_table_value_string(soup, find_str)
-
 
     def _get_usage(find_id):
         return list(soup.find(id=find_id).parent.parent.find_all("td"))[-1].text.strip()

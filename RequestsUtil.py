@@ -42,12 +42,12 @@ def login(username, password):
     print("::  > Success")
 
 
-def get_main_html():
-    print(":: Fetching Main page")
+def get_connections_html():
+    print(":: Fetching connections page")
     if not logged_in:
         raise ValueError("Must login")
 
-    r = requests.get(f"{BASE_URL}/cgi-bin/main.html", cookies=cookies)
+    r = requests.get(f"{BASE_URL}/cgi-bin/pages/connectionStatus.cgi", cookies=cookies)
 
     return r.text
 

@@ -26,6 +26,9 @@ class StatusModel:
     def __str__(self):
         return json.dumps(vars(self), sort_keys=True, indent=4, default=lambda x: x.__dict__)
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class WanInfoPVC:
     def __init__(self):
@@ -47,6 +50,9 @@ class WanInfoPVC:
     def __str__(self):
         return json.dumps(vars(self), sort_keys=True, indent=4, default=lambda x: x.__dict__)
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class LanInfo:
     def __init__(self):
@@ -65,6 +71,9 @@ class LanInfo:
     def __str__(self):
         return json.dumps(vars(self), sort_keys=True, indent=4, default=lambda x: x.__dict__)
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class WLanInfo:
     def __init__(self):
@@ -79,6 +88,9 @@ class WLanInfo:
     def __str__(self):
         return json.dumps(vars(self), sort_keys=True, indent=4, default=lambda x: x.__dict__)
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class InterfaceStatus:
     def __init__(self):
@@ -88,3 +100,6 @@ class InterfaceStatus:
 
     def __str__(self):
         return json.dumps(vars(self), sort_keys=True, indent=4, default=lambda x: x.__dict__)
+
+    def __repr__(self):
+        return self.__str__()
