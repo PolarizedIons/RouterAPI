@@ -7,12 +7,14 @@ BASE_URL = "http://192.168.1.1"
 cookies = None
 logged_in = False
 
+
 def get_session():
     print(":: Creating Session")
     global cookies
     r = requests.get(BASE_URL, allow_redirects=False)
 
     cookies = r.cookies
+
 
 def login(username, password):
     if cookies is None:
@@ -32,12 +34,13 @@ def login(username, password):
     r = requests.post(url, data=data, headers=headers, cookies=cookies)
 
     if "jumpUrl" not in r.text or "passWarning" not in r.text:
-        print("> Failed")
+        print("::  > Failed")
         exit(1)
 
     global logged_in
     logged_in = True
     print("::  > Success")
+
 
 def get_main_html():
     print(":: Fetching Main page")
@@ -47,6 +50,7 @@ def get_main_html():
     r = requests.get(f"{BASE_URL}/cgi-bin/main.html", cookies=cookies)
 
     return r.text
+
 
 def get_status_html():
     print(":: Fetching Status page")
