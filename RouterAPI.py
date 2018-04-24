@@ -1,7 +1,7 @@
 from time import time
 
-import ParserUtil
-import RequestsUtil
+from utils import ParserUtil
+from utils import RequestsUtil
 
 CACHE_TIME = 120
 
@@ -30,3 +30,26 @@ class RouterAPI:
 
         return self.status
 
+    def ping(self, target):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_ping_html(target, 1))
+
+    def ping_ipv6(self, target):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_ping_html(target, 2))
+
+    def traceroute(self, target):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_ping_html(target, 4))
+
+    def traceroute_ipv6(self, target):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_ping_html(target, 3))
+
+    def diag_get_atm_status(self):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_dsl_html(1))
+
+    def diag_get_atm_loopback_test(self):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_dsl_html(2))
+
+    def diag_get_dls_line_status(self):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_dsl_html(3))
+
+    def diag_reset_adsl_line(self):
+        return ParserUtil.parse_diagnostic_responce(RequestsUtil.diagnostic_dsl_html(4))

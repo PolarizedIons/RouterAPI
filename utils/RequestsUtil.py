@@ -1,4 +1,5 @@
 import base64
+from time import sleep
 
 import requests
 
@@ -60,3 +61,45 @@ def get_status_html():
     r = requests.get(f"{BASE_URL}/cgi-bin/pages/statusview.cgi", cookies=cookies)
 
     return r.text
+
+
+def _diagnostic_request(post_url, response_url, data):
+    if not logged_in:
+        raise ValueError("Must login")
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    requests.post(post_url, headers=headers, cookies=cookies, data=data)
+
+    sleep(1)
+
+    r = requests.get(response_url, cookies=cookies)
+
+    return r.text
+
+
+def diagnostic_ping_html(target, type_id):
+    if not target:
+        raise ValueError("Must provide target")
+
+    if not type_id:
+        raise ValueError("Must provide type")
+
+    print(f":: Making diagnostic 'ping' request for '{target}'")
+
+    return _diagnostic_request(f"{BASE_URL}/cgi-bin/pages/maintenance/disagnostic/ping.asp",
+                               f"{BASE_URL}/cgi-bin/pages/maintenance/disagnostic/DiagGeneral.cgi?1",
+                               f"wanPVCFlag=0&PINGFlag={type_id}&pingIPAddr={target}")
+
+
+def diagnostic_dsl_html(type_id):
+    if not type_id:
+        raise ValueError("Must provide type")
+
+    print(f":: Making diagnostic 'dsl' request'")
+
+    return _diagnostic_request(f"{BASE_URL}/cgi-bin/pages/maintenance/disagnostic/dslLine.asp",
+                               f"{BASE_URL}/cgi-bin/pages/maintenance/disagnostic/DiagGeneral.cgi?2",
+                               f"wanPVCFlag=0&DSLFlag={type_id}")

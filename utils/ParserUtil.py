@@ -168,3 +168,10 @@ def parse_status(source):
             status.dsl_uptime += element.attrs.get('id').replace('MLG_Status_AdslUpTime_', ' ')
 
     return status
+
+
+def parse_diagnostic_responce(source):
+    print(":: Parsing diagnostic query response")
+    soup = BeautifulSoup(source, 'html.parser')
+
+    return soup.find("textarea").text
